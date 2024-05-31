@@ -1,0 +1,92 @@
+INCLUDE Irvine32.inc
+
+.data
+    facultyPrompt BYTE "Enter Faculty Member ID: ", 0
+    namePrompt BYTE "Enter Faculty Member Name: ", 0
+    qualificationPrompt BYTE "Enter Faculty Member Qualification: ", 0
+    coursePrompt BYTE "Enter Which Course Faculty Member Teaches: ", 0
+
+    facultyId DWORD ?
+    facultyName BYTE 50 DUP(?)
+    facultyQualification BYTE 50 DUP(?)
+    facultyCourse BYTE 50 DUP(?)
+
+    displayFacultyId BYTE "Faculty Member ID: ", 0
+    displayFacultyName BYTE "Faculty Member Name: ", 0
+    displayFacultyQualification BYTE "Faculty Member Qualification: ", 0
+    displayFacultyCourse BYTE "Faculty Member Teaching Course: ", 0
+
+.code
+main PROC
+    ; Call the main menu
+    call mainMenu
+    exit
+main ENDP
+
+mainMenu PROC
+    ; Display menu and get choice
+    mov edx, OFFSET facultyPrompt
+    call WriteString
+    call ReadInt
+    mov facultyId, eax
+
+    ; Get Faculty Name
+    mov edx, OFFSET namePrompt
+    call WriteString
+    mov ecx, 50
+    mov edx, OFFSET facultyName
+    call ReadString
+
+    ; Get Faculty Qualification
+    mov edx, OFFSET qualificationPrompt
+    call WriteString
+    mov ecx, 50
+    mov edx, OFFSET facultyQualification
+    call ReadString
+
+    ; Get Faculty Course
+    mov edx, OFFSET coursePrompt
+    call WriteString
+    mov ecx, 50
+    mov edx, OFFSET facultyCourse
+    call ReadString
+
+    ; Display stored data
+    call displayFacultyData
+
+    ret
+mainMenu ENDP
+
+displayFacultyData PROC
+    ; Display Faculty ID
+    mov edx, OFFSET displayFacultyId
+    call WriteString
+    mov eax, facultyId
+    call WriteInt
+    call Crlf
+
+    ; Display Faculty Name
+    mov edx, OFFSET displayFacultyName
+    call WriteString
+    mov edx, OFFSET facultyName
+    call WriteString
+    call Crlf
+
+    ; Display Faculty Qualification
+    mov edx, OFFSET displayFacultyQualification
+    call WriteString
+    mov edx, OFFSET facultyQualification
+    call WriteString
+    call Crlf
+
+    ; Display Faculty Course
+    mov edx, OFFSET displayFacultyCourse
+    call WriteString
+    mov edx, OFFSET facultyCourse
+    call WriteString
+    call Crlf
+
+    ret
+displayFacultyData ENDP
+
+END main
